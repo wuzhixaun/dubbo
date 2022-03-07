@@ -12,7 +12,7 @@ import java.io.IOException;
 public class AnnotationConsumerMain {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
 
@@ -20,12 +20,17 @@ public class AnnotationConsumerMain {
         final ConsumerComponet consumerComponet = context.getBean(ConsumerComponet.class);
 
         while (true) {
-            System.in.read();
+            for (int i = 0; i < 1000; i++) {
 
-            final String hello = consumerComponet.sayHello("world");
 
-            System.out.println("result" + hello);
+                new Thread(()->{
 
+                    final String hello = consumerComponet.sayHello("world");
+
+                    System.out.println("result" + hello);
+
+                }).start();
+            }
         }
     }
 
